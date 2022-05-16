@@ -19,33 +19,44 @@
 </head>
 
 <body>
-    <!-- banner part start-->
-    <section class="auth_part">
-        <div style="width: 80%;">
-            <div class="row align-items-center">
-                <div class="col-lg-5 col-xl-5">
-                    <div class="row justify-content-center">
-                        <div class="col-sm-10">
-                            <h3 class="mb-4">Login</h3>
-                            <form action="/signin" method="post">
-                                <div class="input-group mb-3">
-                                    <input type="email" class="form-control" name="email" placeholder="E-mail">
-                                </div>
-                                <div class="input-group mb-4">
-                                    <input type="password" class="form-control" name="password" placeholder="Senha">
-                                </div>
-                                <button type="submit" class="btn_2 mb-3" style="border: none; width: 100%;">Enviar</button>
-                            </form>
-                            <a class="button-link" href="/register">Registre-se</a>
-                        </div>
-                    </div>
+    <!--::header part start::-->
+    <header class="main_menu home_menu">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light align-items-center justify-content-between pt-3">
+                <a class="navbar-brand" href="/dashboard"> <img src="/static/img/landing/logo.png" width="34"
+                        alt="logo"> iConta$
+                </a>
+
+                <div style="display: flex; gap: 10px;">
+                    <a class="btn_2 d-lg-block" href="/expenses/create">Criar despesa</a>
+                    <a class="btn_2 bg-red" href="/logout" style="padding: 16px;"><i class="ti-power-off"></i></a>
                 </div>
-                <div class="col-lg-7">
-                    <div class="banner_img" style="display: flex;justify-content: center;">
-                        <img src="/static/img/landing/auth-image.png" alt="finance image" style="max-width: 80%;">
+            </nav>
+        </div>
+    </header>
+    <!-- Header part end-->
+
+    <!-- content part start-->
+    <section class="content_part">
+        <div class="expense_container">
+            {% for expense in expenses %}
+                <a class="expense_link {{ 'border-green' if expense.paid else ('border-red' if expense.due_date < today else '' ) }}" href="/expenses/edit/{{ expense.id }}">
+                    <div class="expense_details">
+                        <span class="expense_title">{{ expense.title }}</span>
+                        <span class="expense_text">{{ expense.due_date.strftime('%d/%m/%Y') }}</span>
                     </div>
-                </div>
-            </div>
+                    <div class="expense_details">
+                        <span class="expense_title">{{ "R$ %.2f"|format(expense.value) }}</span>
+                        {% if expense.paid %}
+                            <span class="expense_text">pago</span>
+                        {% elif expense.due_date < today %}
+                            <span class="expense_text">vencido</span>
+                        {% else %}
+                            <span>&nbsp;</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
         </div>
     </section>
 
