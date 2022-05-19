@@ -62,6 +62,10 @@ def expenses_pay(id):
 def expenses_unpay(id):
   return ExpenseController.unpay(id)
 
+@app.route('/expenses/delete/<int:id>')
+def expenses_delete(id):
+  return ExpenseController.delete(id)
+
 ###### INICIALIZACAO ######
 with app.app_context():
   db.create_all()
