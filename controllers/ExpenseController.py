@@ -74,26 +74,8 @@ class ExpenseController():
         expense.title = request.form.get('title')
         expense.value = request.form.get('value')
         expense.due_date = datetime.strptime(request.form.get('due_date'), '%Y-%m-%d').date()
-        db.session.commit()
     
         flash('Despesa editada com sucesso', 'success')
-        return redirect('/dashboard')
-
-    def delete(id):
-        if 'user_id' not in session:
-            flash('Faça o login novamente', 'error')
-            return redirect('/login')
-
-        expense = Expenses.query.filter_by(id=id).first()
-
-        if not expense or expense.user_id != session['user_id']:
-            flash('Despesa não encontrada', 'error')
-            return redirect('/dashboard')
-
-        db.session.delete(expense)
-        db.session.commit()
-    
-        flash('Despesa deletada com sucesso', 'success')
         return redirect('/dashboard')
 
     def pay(id):
@@ -124,7 +106,7 @@ class ExpenseController():
             flash('Despesa não encontrada', 'error')
             return redirect('/dashboard')
 
-        expense.paid=False
+        expense.paid=True
         db.session.commit()
     
         flash('Despesa não paga', 'success')
