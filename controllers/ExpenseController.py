@@ -78,6 +78,23 @@ class ExpenseController():
     
         flash('Despesa editada com sucesso', 'success')
         return redirect('/dashboard')
+    
+    def delete(id):
+        if 'user_id' not in session:
+            flash('Faça o login novamente', 'error')
+            return redirect('/login')
+
+        expense = Expenses.query.filter_by(id=id).first()
+
+        if not expense or expense.user_id != session['user_id']:
+            flash('Despesa não encontrada', 'error')
+            return redirect('/dashboard')
+
+        db.session.delete(expense)
+        db.session.commit()
+    
+        flash('Despesa deletada com sucesso', 'success')
+        return redirect('/dashboard')
 
     def pay(id):
         if 'user_id' not in session:
