@@ -1,2 +1,4 @@
-db.sqlite
 __pycache__
+tests
+*.sqlite
+.report.json

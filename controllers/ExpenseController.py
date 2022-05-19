@@ -13,7 +13,7 @@ class ExpenseController():
 
         today = datetime.now().date()
         user = Users.query.filter_by(id=session['user_id']).first()
-        expenses = Expenses.query.filter_by(user_id=session['user_id']).all()
+        expenses = Expenses.query.filter_by(user_id=session['user_id']).order_by('due_date').all()
         return render_template('expenses/index.html', user=user, expenses=expenses, today=today)
 
     def create():
