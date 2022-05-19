@@ -106,7 +106,7 @@ class ExpenseController():
             flash('Despesa não encontrada', 'error')
             return redirect('/dashboard')
 
-        expense.paid=True
+        expense.paid=False
         db.session.commit()
     
         flash('Despesa não paga', 'success')
